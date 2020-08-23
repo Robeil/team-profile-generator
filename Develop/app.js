@@ -1,15 +1,147 @@
-const Manager = require("./lib/Manager");
-const Engineer = require("./lib/Engineer");
-const Intern = require("./lib/Intern");
-const inquirer = require("inquirer");
-const path = require("path");
-const fs = require("fs");
+const Manager = require('./lib/Manager');
+const Engineer = require('./lib/Engineer');
+const Intern = require('./lib/Intern');
+const inquirer = require('inquirer');
+const path = require('path');
+const fs = require('fs');
+const prompt = require('./lib/prompt.js');
 
-const OUTPUT_DIR = path.resolve(__dirname, "output");
-const outputPath = path.join(OUTPUT_DIR, "team.html");
+const OUTPUT_DIR = path.resolve(__dirname, 'output');
+const outputPath = path.join(OUTPUT_DIR, 'team.html');
 
-const render = require("./lib/htmlRenderer");
+const render = require('./lib/htmlRenderer');
 
+let teamArray = [];
+
+async function init() {
+
+    const managerAnswers = await inquirer.prompt(prompt.manager);
+
+    const manager = new Manager {
+
+        answers.managerName,
+        answers.managerid,
+        answers.managerEmail,
+        answers.managerOfficeNummber
+
+    }
+
+    teamArray.push(manager);
+    addMember();
+    addEngineer();
+    addManager();
+    addIntern();
+/// addmember function
+    async function addMember() {
+
+        const choice = await inquirer.prompt(prompt.employeeChoice);
+
+        switch (choice.employeeChoice) {
+
+            case 'Engineer':
+                await addEngineer();
+                break;
+
+            case 'Intern':
+                await addIntern();
+                break;
+                
+                case 'Manager':
+                    await addManager();
+                    break;
+
+                    default:
+                        buildTeam();
+
+
+        }
+
+    }
+
+    //add Engineer function
+
+    async function addEngineer() {
+
+        const choice = await inquirer.prompt(prompt.employeeChoice);
+
+        switch (choice.employeeChoice) {
+
+            case 'Engineer':
+                await addEngineer();
+                break;
+
+            case 'Intern':
+                await addIntern();
+                break;
+                
+                case 'Manager':
+                    await addManager();
+                    break;
+
+                    default:
+                        buildTeam();
+        }
+
+    }
+// add maanger function
+    async function addManager() {
+
+        const choice = await inquirer.prompt(prompt.employeeChoice);
+
+        switch (choice.employeeChoice) {
+
+            case 'Engineer':
+                await addEngineer();
+                break;
+
+            case 'Intern':
+                await addIntern();
+                break;
+                
+                case 'Manager':
+                    await addManager();
+                    break;
+
+                    default:
+                        buildTeam();
+        }
+
+    }
+
+    // add intern function
+
+    async function addIntern() {
+
+        const choice = await inquirer.prompt(prompt.employeeChoice);
+
+        switch (choice.employeeChoice) {
+
+            case 'Engineer':
+                await addEngineer();
+                break;
+
+            case 'Intern':
+                await addIntern();
+                break;
+                
+                case 'Manager':
+                    await addManager();
+                    break;
+
+                    default:
+                        buildTeam();
+        }
+
+    }
+
+}
+
+// add engineer ----> addMember
+
+//add intern ------> addMember
+
+//build team
+// ******************************************************************
 
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
