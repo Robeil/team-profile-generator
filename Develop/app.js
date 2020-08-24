@@ -13,128 +13,225 @@ const render = require('./lib/htmlRenderer');
 
 const teamArray = [];
 
+manager[
+
+    {
+        type: 'input',
+        name: 'name',
+        message: 'Please enter the Employee\'s name:?'
+    },
+
+    {
+        type: 'list',
+        name: 'role',
+        message: 'Please select the Employee\'s role:?',
+        choices: [
+            'Manager',
+            'Engineer',
+            'Intern'
+        ]
+    },
+
+    {
+        type: 'input',
+        name: 'Id',
+        message: 'What is your Employee\'s Id:?'
+
+    },
+
+    {
+        type: 'input',
+        name: 'email',
+        message: 'Please enter the employee\'s Email:?'
+    },
+
+    {
+        type: "input",
+        name: "officeNumber",
+        message: "Please enter the Employee's Office Number:",
+        when: (answers) => {
+            if (answers.role === "Manager") {
+                return true;
+            }
+        }
+    },
+
+    {
+        type: "input",
+        name: "github",
+        message: "Please enter the Employee's GitHub Account:",
+        when: (answers) => {
+            if (answers.role === "Engineer") {
+                return true;
+            }
+        }
+    },
+
+    {
+        type: "input",
+        name: "school",
+        message: "Please enter the Employee's School:",
+        when: (answers) => {
+            if (answers.role === "Intern") {
+                return true;
+            }
+        }
+    }
+];
+
+managerAnswers = [
+    {
+        type: 'list',
+        name: 'employeeChoice',
+        message: 'What type of memeber would you you like to add to the team:?',
+        choices: [
+            'Engineer',
+            'Intern',
+            'Manager'
+        ]
+    }
+];
+
 async function init() {
 
     const managerAnswers = await inquirer.prompt(prompt.manager);
 
-    const manager = new Manager {
+    const manager = new Manager (
 
         answers.managerName,
-        answers.managerid,
+        answers.managerId,
         answers.managerEmail,
         answers.managerOfficeNummber
+)
+}
 
-    }
+teamArray.push(manager);
+addMember();
+addEngineer();
+addManager();
+addIntern();
 
-    teamArray.push(manager);
-    addMember();
-    addEngineer();
-    addManager();
-    addIntern();
 /// addmember function
-    async function addMember() {
+async function addMember() {
 
-        const choice = await inquirer.prompt(prompt.employeeChoice);
+    const choice = await inquirer.prompt(prompt.employeeChoice);
 
-        switch (choice.employeeChoice) {
+    switch (choice.employeeChoice) {
 
-            case 'Engineer':
-                await addEngineer();
-                break;
+        case 'Engineer':
+            await addEngineer();
+            break;
 
-            case 'Intern':
-                await addIntern();
-                break;
-                
-                case 'Manager':
-                    await addManager();
-                    break;
+        case 'Intern':
+            await addIntern();
+            break;
 
-                    default:
-                        buildTeam();
+        case 'Manager':
+            await addManager();
+            break;
 
+        default:
+            buildTeam();
 
-        }
-
-    }
-
-    //add Engineer function
-
-    async function addEngineer() {
-
-        const choice = await inquirer.prompt(prompt.employeeChoice);
-
-        switch (choice.employeeChoice) {
-
-            case 'Engineer':
-                await addEngineer();
-                break;
-
-            case 'Intern':
-                await addIntern();
-                break;
-                
-                case 'Manager':
-                    await addManager();
-                    break;
-
-                    default:
-                        buildTeam();
-        }
-
-    }
-// add maanger function
-    async function addManager() {
-
-        const choice = await inquirer.prompt(prompt.employeeChoice);
-
-        switch (choice.employeeChoice) {
-
-            case 'Engineer':
-                await addEngineer();
-                break;
-
-            case 'Intern':
-                await addIntern();
-                break;
-                
-                case 'Manager':
-                    await addManager();
-                    break;
-
-                    default:
-                        buildTeam();
-        }
-
-    }
-
-    // add intern function
-
-    async function addIntern() {
-
-        const choice = await inquirer.prompt(prompt.employeeChoice);
-
-        switch (choice.employeeChoice) {
-
-            case 'Engineer':
-                await addEngineer();
-                break;
-
-            case 'Intern':
-                await addIntern();
-                break;
-                
-                case 'Manager':
-                    await addManager();
-                    break;
-
-                    default:
-                        buildTeam();
-        }
 
     }
 
 }
+
+//add Engineer function
+
+async function addEngineer() {
+
+    const choice = await inquirer.prompt(prompt.employeeChoice);
+
+    switch (choice.employeeChoice) {
+
+        case 'Engineer':
+            await addEngineer();
+            break;
+
+        case 'Intern':
+            await addIntern();
+            break;
+
+        case 'Manager':
+            await addManager();
+            break;
+
+        default:
+            buildTeam();
+    }
+
+}
+
+// add maanger function
+async function addManager() {
+
+    const choice = await inquirer.prompt(prompt.employeeChoice);
+
+    switch (choice.employeeChoice) {
+
+        case 'Engineer':
+            await addEngineer();
+            break;
+
+        case 'Intern':
+            await addIntern();
+            break;
+
+        case 'Manager':
+            await addManager();
+            break;
+
+        default:
+            buildTeam();
+    }
+
+}
+
+// add intern function
+
+async function addIntern() {
+
+    const choice = await inquirer.prompt(prompt.employeeChoice);
+
+    switch (choice.employeeChoice) {
+
+        case 'Engineer':
+            await addEngineer();
+            break;
+
+        case 'Intern':
+            await addIntern();
+            break;
+
+        case 'Manager':
+            await addManager();
+            break;
+
+        default:
+            buildTeam();
+    }
+
+}
+
+
+// init function for the questons.....
+
+init = () => {
+
+    fs.mkdir('./output', { recursive: true }, (err) => {
+        if (err) throw err;
+    });
+    console.log("Please enter your first employee.");
+    readyToRender();
+}
+
+init();
+
+
+
+
 
 // add engineer ----> addMember
 

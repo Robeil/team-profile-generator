@@ -1,7 +1,7 @@
 module.exports(
 
 
-    manager: [
+    manager[
 
     {
         type: 'input',
@@ -65,7 +65,6 @@ module.exports(
             }
         }
     }
-
     /*
     employeeChoices = [
         {
@@ -80,10 +79,6 @@ module.exports(
         }
     ]
 */
-
-
-
-
     ]);
 
 
