@@ -47,7 +47,7 @@ managerQ = [
 
     {
         type: "input",
-        name: "officeNumber",
+        name: "officeNummber",
         message: "Please enter the Employee's Office Number:",
         when: (answers) => {
             if (answers.role === "Manager") {
@@ -86,23 +86,23 @@ employeeChoice = [{
     choices: [
         'Engineer',
         'Intern',
-        'Manager'
+        'end'
     ]
 }];
 
 async function init() {
 
-    let answers = await inquirer.prompt(managerQ);
+//     let answers = await inquirer.prompt(managerQ);
+// console.log(answers);
+//     const manager = new Manager(
 
-    const manager = new Manager(
-
-        answers.name,
-        answers.managerId,
-        answers.maemailnagerEmail,
-        answers.managerOfficeNummber
-    )
-    teamArray.push(manager);
-    addMember();
+//         answers.name,
+//         answers.Id,
+//         answers.email,
+//         answers.officeNummber
+//     )
+//     teamArray.push(manager);
+   addManager();
     /* addEngineer();
     addManager();
     addIntern(); */
@@ -112,6 +112,7 @@ async function init() {
 
 /// addmember function
 async function addMember() {
+    console.log("ADD MEMEBER")
 
     const choice = await inquirer.prompt(employeeChoice);
 
@@ -125,11 +126,7 @@ async function addMember() {
             await addIntern();
             break;
 
-        case 'Manager':
-            await addManager();
-            break;
-
-        default:
+        case 'end':
             buildTeam();
     }
 
@@ -144,9 +141,9 @@ async function addEngineer() {
 
     const manager = new Engineer(
 
-        answers.managerName,
-        answers.managerId,
-        answers.managerEmail,
+        answers.name,
+        answers.Id,
+        answers.email,
         answers.github
     )
     teamArray.push(manager);
@@ -157,61 +154,47 @@ async function addEngineer() {
 // add maanger function
 async function addManager() {
 
-    const choice = await inquirer.prompt(managerQ);
+    const answers = await inquirer.prompt(managerQ);
+    const manager = new Manager(
 
-    switch (choice.employeeChoice) {
+        answers.name,
+        answers.Id,
+        answers.email,
+        answers.officeNummber
+    )
+    teamArray.push(manager);
+    addMember();
 
-        case 'Engineer':
-            await addEngineer();
-            break;
-
-        case 'Intern':
-            await addIntern();
-            break;
-
-        case 'Manager':
-            await addManager();
-            break;
-
-        default:
-            buildTeam();
-    }
+    
 
 }
 // add intern function
 
 async function addIntern() {
 
-    const choice = await inquirer.prompt(managerQ);
 
-    switch (choice.employeeChoice) {
+    let answers = await inquirer.prompt(managerQ);
 
-        case 'Engineer':
-            await addEngineer();
-            break;
+    const manager = new Intern(
 
-        case 'Intern':
-            await addIntern();
-            break;
+        answers.name,
+        answers.Id,
+        answers.email,
+        answers.school
+    )
+    teamArray.push(manager);
+    addMember();
 
-        case 'Manager':
-            await addManager();
-            break;
-
-        default:
-            buildTeam();
-    }
 
 }
 // init function for the questons.....
 
 buildTeam = () => {
     console.log(teamArray);
-    fs.mkdir('./output', { recursive: true }, (err) => {
+    fs.writeFile('./output/team.html',  render(teamArray), "utf-8", (err) => {
         if (err) throw err;
     });
     console.log("Please enter your first employee.");
-    readyToRender();
 }
 
 init();
