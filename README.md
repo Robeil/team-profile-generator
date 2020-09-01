@@ -1,4 +1,14 @@
-This App Displays The Following Information:
+This App is an interactive team page generator on the Command Line, 
+
+The tools used are using 
+
+Node.js  
+Inquirer npm package. 
+
+This program will generate html page displaying  each employee entered. 
+
+The summary information will be , including Name, ID, Email, Role, and one role detail.
+
 Manager:
 
 Name
