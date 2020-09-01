@@ -4,7 +4,7 @@ const Intern = require('./lib/Intern');
 const inquirer = require('inquirer');
 const path = require('path');
 const fs = require('fs');
-const prompt = require('./lib/prompt.js');
+//const prompt = require('./lib/prompt.js');
 
 const OUTPUT_DIR = path.resolve(__dirname, 'output');
 const outputPath = path.join(OUTPUT_DIR, 'team.html');
@@ -13,7 +13,7 @@ const render = require('./lib/htmlRenderer');
 
 const teamArray = [];
 
-manager[
+managerQ = [
 
     {
         type: 'input',
@@ -79,42 +79,41 @@ manager[
     }
 ];
 
-managerAnswers = [
-    {
-        type: 'list',
-        name: 'employeeChoice',
-        message: 'What type of memeber would you you like to add to the team:?',
-        choices: [
-            'Engineer',
-            'Intern',
-            'Manager'
-        ]
-    }
-];
+employeeChoice = [{
+    type: 'list',
+    name: 'employeeChoice',
+    message: 'What type of memeber would you you like to add to the team:?',
+    choices: [
+        'Engineer',
+        'Intern',
+        'Manager'
+    ]
+}];
 
 async function init() {
 
-    const managerAnswers = await inquirer.prompt(prompt.manager);
+    let answers = await inquirer.prompt(managerQ);
 
-    const manager = new Manager (
+    const manager = new Manager(
 
-        answers.managerName,
+        answers.name,
         answers.managerId,
-        answers.managerEmail,
+        answers.maemailnagerEmail,
         answers.managerOfficeNummber
-)
+    )
+    teamArray.push(manager);
+    addMember();
+    /* addEngineer();
+    addManager();
+    addIntern(); */
 }
 
-teamArray.push(manager);
-addMember();
-addEngineer();
-addManager();
-addIntern();
+
 
 /// addmember function
 async function addMember() {
 
-    const choice = await inquirer.prompt(prompt.employeeChoice);
+    const choice = await inquirer.prompt(employeeChoice);
 
     switch (choice.employeeChoice) {
 
@@ -132,42 +131,33 @@ async function addMember() {
 
         default:
             buildTeam();
-
-
     }
 
 }
-
 //add Engineer function
 
 async function addEngineer() {
 
-    const choice = await inquirer.prompt(prompt.employeeChoice);
 
-    switch (choice.employeeChoice) {
 
-        case 'Engineer':
-            await addEngineer();
-            break;
+    let answers = await inquirer.prompt(managerQ);
 
-        case 'Intern':
-            await addIntern();
-            break;
+    const manager = new Engineer(
 
-        case 'Manager':
-            await addManager();
-            break;
-
-        default:
-            buildTeam();
-    }
+        answers.managerName,
+        answers.managerId,
+        answers.managerEmail,
+        answers.github
+    )
+    teamArray.push(manager);
+    addMember();
 
 }
 
 // add maanger function
 async function addManager() {
 
-    const choice = await inquirer.prompt(prompt.employeeChoice);
+    const choice = await inquirer.prompt(managerQ);
 
     switch (choice.employeeChoice) {
 
@@ -188,12 +178,11 @@ async function addManager() {
     }
 
 }
-
 // add intern function
 
 async function addIntern() {
 
-    const choice = await inquirer.prompt(prompt.employeeChoice);
+    const choice = await inquirer.prompt(managerQ);
 
     switch (choice.employeeChoice) {
 
@@ -214,12 +203,10 @@ async function addIntern() {
     }
 
 }
-
-
 // init function for the questons.....
 
-init = () => {
-
+buildTeam = () => {
+    console.log(teamArray);
     fs.mkdir('./output', { recursive: true }, (err) => {
         if (err) throw err;
     });
@@ -228,10 +215,6 @@ init = () => {
 }
 
 init();
-
-
-
-
 
 // add engineer ----> addMember
 
